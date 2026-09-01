@@ -1,0 +1,28 @@
+# Render Blueprint: New > Blueprint > pick this repo.
+# One web service serves both the API and the built React app.
+services:
+  - type: web
+    name: shelfmark
+    runtime: node
+    plan: free
+    # --include=dev because Vite and Tailwind are devDependencies and NODE_ENV is production
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        sync: false # paste the Neon connection string when Render asks
+      - key: JWT_SECRET
+        generateValue: true
+      - key: QR_SECRET
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false # optional: https://aistudio.google.com/apikey
+      - key: SEED_DEMO
+        value: "true" # demo books + demo logins for reviewers; set to "false" for real use
+      - key: REPORT_TIMEZONE
+        value: Asia/Kolkata

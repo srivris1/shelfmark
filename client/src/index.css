@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/newsreader';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Paper and ink. Colour is only used when it means something (status, the two chart series). */
+:root {
+  --canvas: #f6f4ef;
+  --surface: #fcfbf8;
+  --surface-2: #efece5;
+  --line: #e4e0d6;
+  --line-strong: #d3cdc0;
+  --ink: #1f1d19;
+  --ink-2: #57534b;
+  --ink-3: #736e64;
+  --primary: #1f1d19;
+  --primary-ink: #fbfaf7;
+  --primary-hover: #38352f;
+  --focus: #17875a;
+  --stamp: #b3261e;
+  --stamp-green: #1f7a4f;
+  --series-issued: #17875a;
+  --series-returned: #c8811a;
+  --tag-green-bg: #e6f0e7;
+  --tag-green-ink: #2d5a33;
+  --tag-blue-bg: #e2edf7;
+  --tag-blue-ink: #1f5985;
+  --tag-yellow-bg: #f7eed4;
+  --tag-yellow-ink: #6f4b00;
+  --tag-red-bg: #fae4e1;
+  --tag-red-ink: #962a22;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --canvas: #181714;
+  --surface: #211f1b;
+  --surface-2: #2b2924;
+  --line: #34312b;
+  --line-strong: #47433b;
+  --ink: #eeebe4;
+  --ink-2: #bab5aa;
+  --ink-3: #928d82;
+  --primary: #eeebe4;
+  --primary-ink: #1b1a17;
+  --primary-hover: #d6d2c8;
+  --focus: #3ea676;
+  --stamp: #ec7a70;
+  --stamp-green: #5cc393;
+  --series-issued: #3ea676;
+  --series-returned: #c4862c;
+  --tag-green-bg: #213329;
+  --tag-green-ink: #a3d9b4;
+  --tag-blue-bg: #1f2d3a;
+  --tag-blue-ink: #a6cbef;
+  --tag-yellow-bg: #362d17;
+  --tag-yellow-ink: #efd08a;
+  --tag-red-bg: #3b2320;
+  --tag-red-ink: #f4aaa2;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-hover: var(--primary-hover);
+  --color-focus: var(--focus);
+  --color-stamp: var(--stamp);
+  --color-stamp-green: var(--stamp-green);
+  --color-series-issued: var(--series-issued);
+  --color-series-returned: var(--series-returned);
+  --color-tag-green-bg: var(--tag-green-bg);
+  --color-tag-green-ink: var(--tag-green-ink);
+  --color-tag-blue-bg: var(--tag-blue-bg);
+  --color-tag-blue-ink: var(--tag-blue-ink);
+  --color-tag-yellow-bg: var(--tag-yellow-bg);
+  --color-tag-yellow-ink: var(--tag-yellow-ink);
+  --color-tag-red-bg: var(--tag-red-bg);
+  --color-tag-red-ink: var(--tag-red-ink);
+
+  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@layer base {
+  html {
+    background: var(--canvas);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.55;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--series-issued) 25%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* numbers that line up in tables and the ledger */
+  .figures {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* ruled index-card background used on the book page and login screen */
+  .ruled {
+    background-image: linear-gradient(to bottom, transparent calc(2rem - 1px), var(--line) calc(2rem - 1px), var(--line) 2rem);
+    background-size: 100% 2rem;
+  }
+
+  /* perforated top edge of the due-date slips */
+  .perforated {
+    background-image: radial-gradient(circle at 6px -2px, var(--canvas) 4px, transparent 4.5px);
+    background-size: 12px 8px;
+    background-repeat: repeat-x;
+  }
+
+  .stamp {
+    border: 3px double currentColor;
+    border-radius: 6px;
+    transform: rotate(-8deg);
+    opacity: 0.92;
+    mix-blend-mode: multiply;
+  }
+  [data-theme='dark'] .stamp {
+    mix-blend-mode: normal;
+  }
+
+  /* the overlay qr-scanner draws on top of the camera feed */
+  .scan-region-highlight-svg,
+  .code-outline-highlight {
+    stroke: #f6f4ef !important;
+  }
+}
+
+@keyframes stamp-in {
+  0% {
+    transform: scale(1.8) rotate(-18deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.96) rotate(-7deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-8deg);
+    opacity: 0.92;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.animate-stamp {
+  animation: stamp-in 420ms var(--ease-out-quart) both;
+  animation-delay: 120ms;
+}
+.animate-rise {
+  animation: rise-in 360ms var(--ease-out-quart) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-stamp,
+  .animate-rise {
+    animation: none;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+}
