@@ -2,9 +2,9 @@
 
 A circulation desk for a college library. You print a QR label for every book, and at the desk you scan it to issue or return the book. Every loan gets recorded with who took it, when, and when it's due back.
 
-I built this as a comprehensive Library Book Issue & Return Management System. It includes an admin dashboard and an AI-powered search feature. There's also a section further down about the extra features I added beyond standard requirements.
+I built this to handle all the core workflows of a college library desk. I also ended up adding an admin dashboard and an AI-powered natural language search, just to see how well it would work. There's a section further down about the extra features I threw in because a few of those ended up being my favourite parts.
 
-- Live demo: _add the Render link here after deploying_
+- Live demo: [https://1dd0b2dbf7519d.lhr.life](https://1dd0b2dbf7519d.lhr.life)
 - Demo video: _add the video link here_
 
 ## Running it locally
@@ -149,9 +149,9 @@ There's a second AI feature in the add-book form: type a title and author, and i
 
 It runs on Gemini 2.5 Flash by default (about 2 seconds per request once I turned off its "thinking" mode, which this kind of small extraction doesn't need). Claude works as well if you set `ANTHROPIC_API_KEY`. If there's no key, or the API is down or rate-limited, the same features use an offline rule-based parser. It's dumber, but the search box never just fails.
 
-## Extra features
+## Some extra things I added
 
-These features make the desk nicer to use and are suitable for a real library.
+I didn't strictly need to build these, but I added them because they either make the desk nicer to use or they're what I'd worry about if this ran in a real library.
 
 - Staff accounts with two roles. Librarians issue, return and manage books; admins also manage staff. Removing a staff member locks them out immediately, not when their session runs out.
 - Live updates. When someone issues a book at one desk, every other open screen updates within a second (Server-Sent Events), and there's a small "Live" dot showing the connection.
